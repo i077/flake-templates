@@ -9,4 +9,11 @@ for i in *; do
     fi
 done
 
-[[ ${#failed[@]} -eq 0 ]] || (echo "Checks Failed:" && printf '%s\n' ${failed[@]} && exit 1)
+if [[ ! ${#failed[@]} -eq 0 ]]; then
+    echo "Checks Failed:"
+    printf '%s\n' ${failed[@]}
+    exit 1
+else
+    echo "all checks passed"
+fi
+
