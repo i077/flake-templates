@@ -1,0 +1,22 @@
+#! /usr/bin/env python3
+
+import os
+from pathlib import Path
+
+
+def check(flake: Path) -> bool:
+    cmd = f'(nix develop {flake}/ -c echo "PASSED: {flake}\n" && exit 0) || (echo "FAILED: {flake}\n" && exit 1)'
+    # cmd = f'(nix flake check {flake}/ && echo "PASSED: {flake}\n" && exit 0) || (echo "FAILED: {flake}\n" && exit 1)'
+    return os.system(cmd) == 0
+
+failed = [
+    flake
+    for flake in [flake.parent for flake in Path(".").glob("**/*/flake.nix")]
+    if not check(flake)
+]
+if failed:
+    print("FAILED CHECKS:")
+    print("\n".join(list(map(str, failed))))
+    exit(1)
+else:
+    print("PASSING")
