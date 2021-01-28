@@ -1,10 +1,12 @@
 #! /usr/bin/env bash
 
+failed=()
+
 for i in *; do
     if [[ -d $i ]] && [[ -e $i/flake.nix ]]; then
         echo "testing $i"
-        nix develop $i/ -c echo "ok" || FAILED=true
+        nix develop $i/ -c echo "PASSED: $i" || echo "FAILED: $i" && failed+=($i)
     fi
 done
 
-$FAILED && exit 1
+[[ ${#failed[@]} -eq 0 ]] || (echo "Checks Failed:" && printf '%s\n' ${failed[@]} && exit 1)
