@@ -10,8 +10,7 @@
 
   outputs = { self, nixpkgs, flake-utils, mach-nix }:
     flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
+      let pkgs = nixpkgs.legacyPackages.${system};
       in {
         devShell = let
           pyEnv = mach-nix.lib.${system}.mkPython {
