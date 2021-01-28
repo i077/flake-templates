@@ -18,9 +18,9 @@
       in {
         devShell = let pyEnv = pkgs.poetry2nix.mkPoetryEnv { projectDir = ./.; };
         in pkgs.mkShell {
-          buildInputs = with pkgs; [ 
-            pyEnv 
-            poetry 
+          buildInputs = with pkgs; [
+            pyEnv
+            poetry
           ];
           shellHook = ''
             ln -sfT ${pyEnv.outPath} .venv
