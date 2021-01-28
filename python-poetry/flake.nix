@@ -3,7 +3,8 @@
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
   inputs.poetry2nix = {
-    url = "github:nix-community/poetry2nix";
+    # url = "github:nix-community/poetry2nix";
+    url = "github:K900/poetry2nix/fix-platform";
     inputs.nixpkgs.follows = "nixpkgs";
   };
   inputs.flake-utils.url = "github:numtide/flake-utils";
