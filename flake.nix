@@ -3,6 +3,10 @@
 
   outputs = { self }: {
     templates = {
+      python-poetry = {
+        path = ./python-poetry;
+        description = "A python project managed with Poetry";
+      };
     };
   };
 }
