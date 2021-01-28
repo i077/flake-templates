@@ -1,0 +1,27 @@
+name: "run flake checks"
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: styfle/cancel-workflow-action@0.7.0
+        with:
+          access_token: ${{ github.token }}
+      - uses: actions/checkout@v2
+        with:
+          # Shallow clones won't work
+          fetch-depth: 0
+      - uses: cachix/install-nix-action@v12
+        with:
+          install_url: https://github.com/numtide/nix-flakes-installer/releases/download/nix-2.4pre20201221_9fab14a/install
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+      - name: run checks
+        run: bash checks.sh
