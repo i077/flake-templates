@@ -24,4 +24,6 @@ jobs:
           extra_nix_config: |
             experimental-features = nix-command flakes
       - name: run checks
+        env:
+          GITHUB_API_TOKEN: ${{ github.token }}
         run: bash checks.sh
