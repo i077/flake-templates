@@ -1,5 +1,7 @@
 # Nix flake templates for flake-enabled projects
 
+![run flake checks](https://github.com/i077/flake-templates/workflows/run%20flake%20checks/badge.svg)
+
 I kinda got tired of having to copy `flake.nix` etc. around from different projects
 to start new ones that have flake outputs,
 so this flake gathers structures from other projects I have for various languages.
