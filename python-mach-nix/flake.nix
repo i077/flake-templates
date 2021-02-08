@@ -1,12 +1,14 @@
 {
   description = "A Python project managed with mach-nix";
 
-  inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-  inputs.mach-nix = {
-    url = "github:DavHau/mach-nix";
-    inputs.nixpkgs.follows = "nixpkgs";
+  inputs = {
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
+    mach-nix = {
+      url = "github:DavHau/mach-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    flake-utils.url = "github:numtide/flake-utils";
   };
-  inputs.flake-utils.url = "github:numtide/flake-utils";
 
   outputs = { self, nixpkgs, flake-utils, mach-nix }:
     flake-utils.lib.eachDefaultSystem (system:
