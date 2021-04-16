@@ -6,6 +6,10 @@
     mach-nix = {
       url = "github:DavHau/mach-nix";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.pypi-deps-db = {
+        url = "github:DavHau/pypi-deps-db";
+        flake = false;
+      };
     };
     flake-utils.url = "github:numtide/flake-utils";
     flake-compat = {
