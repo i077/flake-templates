@@ -8,20 +8,25 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     flake-utils.url = "github:numtide/flake-utils";
-        flake-compat = {
+    flake-compat = {
       url = "github:edolstra/flake-compat";
       flake = false;
     };
+    devshell.url = "github:numtide/devshell";
   };
 
-  outputs = { self, nixpkgs, flake-utils, mach-nix, flake-compat }:
+  outputs = { self, nixpkgs, flake-utils, mach-nix, flake-compat, devshell }:
     flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = nixpkgs.legacyPackages.${system};
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ devshell.overlay ];
+        };
       in {
         devShell = let
           pyEnv = mach-nix.lib.${system}.mkPython {
             requirements = builtins.readFile ./requirements.txt;
           };
-        in pkgs.mkShell { buildInputs = with pkgs; [ pyEnv ]; };
+        in pkgs.devshell.mkShell { packages = with pkgs; [ pyEnv ]; };
       });
 }

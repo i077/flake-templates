@@ -12,23 +12,19 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
+    devshell.url = "github:numtide/devshell";
   };
 
-  outputs = { self, nixpkgs, flake-utils, poetry2nix, flake-compat }:
+  outputs = { self, nixpkgs, flake-utils, poetry2nix, flake-compat, devshell }:
     flake-utils.lib.eachDefaultSystem (system:
       let
         pkgs = import nixpkgs {
           inherit system;
-          overlays = [ poetry2nix.overlay ];
+          overlays = [ poetry2nix.overlay devshell.overlay ];
         };
       in {
         devShell =
           let pyEnv = pkgs.poetry2nix.mkPoetryEnv { projectDir = ./.; };
-          in pkgs.mkShell {
-            buildInputs = with pkgs; [ pyEnv poetry ];
-            shellHook = ''
-              ln -sfT ${pyEnv.outPath} .venv
-            '';
-          };
+          in pkgs.devshell.mkShell { packages = with pkgs; [ pyEnv poetry ]; };
       });
 }

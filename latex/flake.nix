@@ -8,18 +8,23 @@
       url = "github:edolstra/flake-compat";
       flake = false;
     };
+    devshell.url = "github:numtide/devshell";
   };
 
-  outputs = { self, nixpkgs, flake-utils, flake-compat }:
+  outputs = { self, nixpkgs, flake-utils, flake-compat, devshell }:
     flake-utils.lib.eachDefaultSystem (system:
-      let pkgs = nixpkgs.legacyPackages.${system};
+      let
+        pkgs = import nixpkgs {
+          inherit system;
+          overlays = [ devshell.overlay ];
+        };
       in {
-        devShell = pkgs.mkShell {
-          buildInputs = with pkgs;
+        devShell = pkgs.devshell.mkShell {
+          packages = with pkgs;
             [
               (texlive.combine {
                 inherit (texlive)
-                # Base package
+                  # Base package
                   scheme-small
 
                   # Build tools
