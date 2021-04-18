@@ -1,0 +1,10 @@
+[package]
+name = "example"
+version = "0.1.0"
+edition = "2018"
+
+# see https://github.com/yusdacra/nix-cargo-integration for more information
+[package.metadata.nix]
+systems = ["x86_64-linux", "x86_64-darwin"] # you can add more systems here, or remove the attribute to default to nixpkgs.defaultSystems
+build = true
+app = true # this is a binary that can be ran

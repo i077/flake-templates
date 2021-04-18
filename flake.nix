@@ -17,6 +17,11 @@
         path = ./python-mach-nix;
         description = "A python project managed with mach-nix";
       };
+
+      rust-cargo-integration = {
+        path = ./rust-cargo-integration;
+        description = "A Rust project managed by Cargo and integrated to Nix with nix-cargo-integration";
+      };
     };
   };
 }
